@@ -1,0 +1,27 @@
+/* CONTACT PAGE */
+.contact {
+  padding: 50px;
+  text-align: center;
+}
+
+.contact h1 {
+  color: #2e7d32;
+}
+
+.contact p {
+  color: #555;
+}
+
+.contact-card {
+  margin-top: 30px;
+  display: inline-block;
+  padding: 20px 30px;
+  background: #f1f8e9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.contact-card p {
+  margin: 10px 0;
+  font-size: 18px;
+}

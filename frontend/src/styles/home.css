@@ -1,0 +1,117 @@
+/* 🌿 BODY */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #dfe9f3, #f4f7f2);
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+}
+
+.logo {
+  color: #2e7d32;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links li {
+  cursor: pointer;
+  color: #333;
+}
+
+/* NAV LINKS */
+.nav-links a {
+  text-decoration: none;   /* removes underline */
+  color: #2e7d32;          /* green theme */
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+/* HOVER EFFECT */
+.nav-links a:hover {
+  color: #1b5e20;
+  border-bottom: 2px solid #4caf50; /* subtle underline on hover */
+}
+
+/* NAV BUTTONS */
+.nav-btn {
+  margin-left: 10px;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 1px solid #4caf50;
+  color: #4caf50;
+}
+
+.nav-btn.register {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px;
+}
+
+/* LEFT */
+.hero-left {
+  max-width: 500px;
+}
+
+.hero-left h1 {
+  font-size: 60px;
+  color: #1b5e20;
+}
+
+.hero-left p {
+  color: #555;
+  margin: 20px 0;
+}
+
+/* BUTTON */
+.primary-btn {
+  background-color: #2e7d32;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background-color: #1b5e20;
+}
+
+/* RIGHT IMAGE */
+.hero-right img {
+  width: 400px;
+  border-radius: 20px;
+}
+
+/* FEATURES */
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: 40px;
+}
+
+.feature {
+  text-align: center;
+  max-width: 200px;
+}
+
+.feature h4 {
+  color: #2e7d32;
+}

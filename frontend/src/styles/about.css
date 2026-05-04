@@ -1,0 +1,35 @@
+/* ABOUT PAGE */
+.about {
+  padding: 50px;
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+}
+
+.about h1 {
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+.about p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.about-box {
+  margin-top: 30px;
+  padding: 20px;
+  background: #e8f5e9;
+  border-radius: 10px;
+}
+
+.about-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about-box li {
+  margin: 10px 0;
+  font-weight: 500;
+}

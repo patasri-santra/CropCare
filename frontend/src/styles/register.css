@@ -1,0 +1,75 @@
+/* PAGE BACKGROUND */
+.register-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #e8f5e9, #f4f7f2);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* CARD */
+.register-card {
+  background: #ffffff;
+  padding: 40px;
+  width: 350px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* TITLE */
+.register-card h2 {
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+/* INPUT */
+.register-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.register-input:focus {
+  border-color: #4caf50;
+}
+
+/* BUTTON */
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.register-btn:hover {
+  background-color: #388e3c;
+}
+
+/* ERROR */
+.register-error {
+  background-color: #ffe6e6;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* LINK */
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #2e7d32;
+  text-decoration: none;
+}

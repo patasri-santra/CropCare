@@ -1,0 +1,109 @@
+/* PAGE */
+.dashboard {
+  padding: 30px;
+  background: #f4f7f2;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  color: #2e7d32;
+}
+
+.nav-links a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  border-bottom: 2px solid #4caf50;
+}
+
+/* LOGOUT */
+.logout-btn {
+  background: #8d6e63;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* TITLE */
+.page-title {
+  color: #1b5e20;
+  margin-bottom: 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ROW */
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+/* INPUT */
+.input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTON */
+.btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn.small {
+  padding: 10px;
+}
+
+.btn:hover {
+  background: #388e3c;
+}
+
+/* INFO BOX */
+.info {
+  margin-top: 10px;
+  background: #e8f5e9;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* SUCCESS */
+.success {
+  margin-top: 10px;
+  background: #d0f0c0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* ISSUE */
+.issue {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
