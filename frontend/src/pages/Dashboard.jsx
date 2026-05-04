@@ -4,221 +4,192 @@ import "../styles/dashboard.css";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
+  const [cropName, setCropName] = useState("");
+  const [problem, setProblem] = useState("");
+  const [solution, setSolution] = useState("");
+  const [issues, setIssues] = useState([]);
+  const [prices, setPrices] = useState([]);
+  const [weather, setWeather] = useState(null);
+  const [location, setLocation] = useState("Punjab");
 
-const [cropName, setCropName] = useState("");
-const [problem, setProblem] = useState("");
-const [solution, setSolution] = useState("");
-const [issues, setIssues] = useState([]);
-const [prices, setPrices] = useState([]);
-const [weather, setWeather] = useState(null);
-const [location, setLocation] = useState("Punjab");
+  const token = localStorage.getItem("token");
 
-const token = localStorage.getItem("token");
+  // ---------------- LOAD DATA (FIXED) ---------------- //
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        const [issuesRes, pricesRes, weatherRes] = await Promise.all([
+          axios.get(
+            "https://cropcare-backend-7njo.onrender.com/api/crop/myissues",
+            { headers: { Authorization: token } }
+          ),
+          axios.get(
+            "https://cropcare-backend-7njo.onrender.com/api/prices"
+          ),
+          axios.get(
+            `https://cropcare-backend-7njo.onrender.com/api/weather?location=${location}`
+          )
+        ]);
 
-// ---------------- FETCH FUNCTIONS ---------------- //
+        setIssues(issuesRes.data);
+        setPrices(pricesRes.data);
+        setWeather(weatherRes.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-const fetchIssues = async () => {
-  try {
-    const res = await axios.get(
-      "https://cropcare-backend-7njo.onrender.com/api/crop/myissues",
-      { headers: { Authorization: token } }
-    );
-    setIssues(res.data);
-  } catch (err) {
-    console.log(err);
-  }
-};
+    fetchAllData();
+  }, [location]); // 👈 IMPORTANT FIX
 
-const fetchPrices = async () => {
-  try {
-    const res = await axios.get(
-      "https://cropcare-backend-7njo.onrender.com/api/prices"
-    );
-    setPrices(res.data);
-  } catch (err) {
-    console.log(err);
-  }
-};
+  // ---------------- SUBMIT ---------------- //
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-const fetchWeather = async () => {
-  try {
-    const res = await axios.get(
-      `https://cropcare-backend-7njo.onrender.com/api/weather?location=${location}`
-    );
-    setWeather(res.data);
-  } catch (err) {
-    console.log(err);
-  }
-};
+    try {
+      const res = await axios.post(
+        "https://cropcare-backend-7njo.onrender.com/api/crop/report",
+        { cropName, problem },
+        { headers: { Authorization: token } }
+      );
 
-// ---------------- LOAD DATA ---------------- //
+      setSolution(res.data.solution);
+      setCropName("");
+      setProblem("");
 
-useEffect(() => {
-  const loadData = async () => {
-    await fetchIssues();
-    await fetchWeather();
-    await fetchPrices();
+      // refresh issues after submit
+      const updated = await axios.get(
+        "https://cropcare-backend-7njo.onrender.com/api/crop/myissues",
+        { headers: { Authorization: token } }
+      );
+      setIssues(updated.data);
+
+    } catch {
+      alert("Error submitting issue");
+    }
   };
 
-  loadData();
-}, []);
+  // ---------------- LOGOUT ---------------- //
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
 
-// ---------------- SUBMIT ---------------- //
+  // ---------------- UI ---------------- //
+  return (
+    <div className="dashboard">
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+      {/* 🌿 NAVBAR */}
+      <div className="topbar">
+        <h2 className="logo">CropCare</h2>
 
-  try {
-    const res = await axios.post(
-      "https://cropcare-backend-7njo.onrender.com/api/crop/report",
-      { cropName, problem },
-      { headers: { Authorization: token } }
-    );
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
 
-    setSolution(res.data.solution);
-    setCropName("");
-    setProblem("");
-    fetchIssues();
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      </div>
 
-  } catch {
-    alert("Error submitting issue");
-  }
-};
+      {/* 🌾 TITLE */}
+      <h1 className="page-title">Farmer Dashboard</h1>
 
-// ---------------- LOGOUT ---------------- //
+      {/* 🌦 WEATHER */}
+      <div className="card">
+        <h3>🌦 Weather</h3>
 
-const handleLogout = () => {
-  localStorage.removeItem("token");
-  window.location.href = "/login";
-};
+        <div className="row">
+          <input
+            className="input"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Enter location"
+          />
+        </div>
 
-// ---------------- UI ---------------- //
+        {weather && (
+          <div className="info">
+            <p><b>{weather.location}</b></p>
+            <p>{weather.temperature}°C</p>
+            <p>{weather.condition}</p>
+          </div>
+        )}
+      </div>
 
-return (
+      {/* 📈 PRICES */}
+      <div className="card">
+        <h3>📈 Market Prices</h3>
 
-<div className="dashboard">
+        {prices.length === 0 ? (
+          <p>No data available</p>
+        ) : (
+          prices.map((p, i) => (
+            <p key={i}>
+              <b>{p.crop}</b> : {p.price}
+            </p>
+          ))
+        )}
+      </div>
 
-{/* 🌿 NAVBAR */}
-<div className="topbar">
-<h2 className="logo">CropCare</h2>
+      {/* 🌾 ISSUE FORM */}
+      <div className="card">
+        <h3>Report Crop Issue</h3>
 
-<div className="nav-links">
-<Link to="/">Home</Link>
-<Link to="/about">About</Link>
-<Link to="/contact">Contact</Link>
+        <form onSubmit={handleSubmit}>
 
-<button className="logout-btn" onClick={handleLogout}>
-Logout
-</button>
-</div>
-</div>
+          <input
+            className="input"
+            value={cropName}
+            onChange={(e) => setCropName(e.target.value)}
+            placeholder="Crop Name"
+            required
+          />
 
-{/* 🌾 TITLE */}
-<h1 className="page-title">Farmer Dashboard</h1>
+          <select
+            className="input"
+            value={problem}
+            onChange={(e) => setProblem(e.target.value)}
+            required
+          >
+            <option value="">Select Problem</option>
+            <option>Yellow Leaves</option>
+            <option>Dry Leaves</option>
+            <option>Spots on Leaves</option>
+          </select>
 
-{/* 🌦 WEATHER */}
-<div className="card">
-<h3>🌦 Weather</h3>
+          <button className="btn">Get Solution</button>
 
-<div className="row">
-<input
-className="input"
-value={location}
-onChange={(e)=>setLocation(e.target.value)}
-placeholder="Enter location"
-/>
+        </form>
 
-<button className="btn small" onClick={fetchWeather}>
-Check
-</button>
-</div>
+        {solution && (
+          <div className="success">
+            Solution: {solution}
+          </div>
+        )}
+      </div>
 
-{weather && (
-<div className="info">
-<p><b>{weather.location}</b></p>
-<p>{weather.temperature}°C</p>
-<p>{weather.condition}</p>
-</div>
-)}
+      {/* 📋 HISTORY */}
+      <div className="card">
+        <h3>Previous Issues</h3>
 
-</div>
+        {issues.length === 0 ? (
+          <p>No issues found</p>
+        ) : (
+          issues.map((issue, i) => (
+            <div key={i} className="issue">
+              <p><b>{issue.cropName}</b></p>
+              <p>{issue.problem}</p>
+              <p>{issue.solution}</p>
+            </div>
+          ))
+        )}
+      </div>
 
-{/* 📈 PRICES */}
-<div className="card">
-<h3>📈 Market Prices</h3>
-
-{prices.length === 0 ? (
-<p>No data available</p>
-) : (
-prices.map((p, i) => (
-<p key={i}>
-<b>{p.crop}</b> : {p.price}
-</p>
-))
-)}
-
-</div>
-
-{/* 🌾 ISSUE FORM */}
-<div className="card">
-<h3>Report Crop Issue</h3>
-
-<form onSubmit={handleSubmit}>
-
-<input
-className="input"
-value={cropName}
-onChange={(e)=>setCropName(e.target.value)}
-placeholder="Crop Name"
-required
-/>
-
-<select
-className="input"
-value={problem}
-onChange={(e)=>setProblem(e.target.value)}
-required
->
-<option value="">Select Problem</option>
-<option>Yellow Leaves</option>
-<option>Dry Leaves</option>
-<option>Spots on Leaves</option>
-</select>
-
-<button className="btn">Get Solution</button>
-
-</form>
-
-{solution && (
-<div className="success">
-Solution: {solution}
-</div>
-)}
-
-</div>
-
-{/* 📋 HISTORY */}
-<div className="card">
-<h3>Previous Issues</h3>
-
-{issues.length === 0 ? (
-<p>No issues found</p>
-) : (
-issues.map((issue, i) => (
-<div key={i} className="issue">
-<p><b>{issue.cropName}</b></p>
-<p>{issue.problem}</p>
-<p>{issue.solution}</p>
-</div>
-))
-)}
-
-</div>
-
-</div>
-
-);
-
+    </div>
+  );
 }
 
 export default Dashboard;
