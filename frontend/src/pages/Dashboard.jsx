@@ -16,31 +16,33 @@ function Dashboard() {
 
   // ---------------- LOAD DATA (FIXED) ---------------- //
   useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        const [issuesRes, pricesRes, weatherRes] = await Promise.all([
-          axios.get(
-            "https://cropcare-backend-7njo.onrender.com/api/crop/myissues",
-            { headers: { Authorization: token } }
-          ),
-          axios.get(
-            "https://cropcare-backend-7njo.onrender.com/api/prices"
-          ),
-          axios.get(
-            `https://cropcare-backend-7njo.onrender.com/api/weather?location=${location}`
-          )
-        ]);
+  const token = localStorage.getItem("token");
 
-        setIssues(issuesRes.data);
-        setPrices(pricesRes.data);
-        setWeather(weatherRes.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const fetchAllData = async () => {
+    try {
+      const [issuesRes, pricesRes, weatherRes] = await Promise.all([
+        axios.get(
+          "https://cropcare-backend-7njo.onrender.com/api/crop/myissues",
+          { headers: { Authorization: token } }
+        ),
+        axios.get(
+          "https://cropcare-backend-7njo.onrender.com/api/prices"
+        ),
+        axios.get(
+          `https://cropcare-backend-7njo.onrender.com/api/weather?location=${location}`
+        )
+      ]);
 
-    fetchAllData();
-  }, [location]); // 👈 IMPORTANT FIX
+      setIssues(issuesRes.data);
+      setPrices(pricesRes.data);
+      setWeather(weatherRes.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchAllData();
+}, [location]);
 
   // ---------------- SUBMIT ---------------- //
   const handleSubmit = async (e) => {
