@@ -20,7 +20,7 @@ const token = localStorage.getItem("token");
 const fetchIssues = async () => {
 try {
 const res = await axios.get(
-"http://localhost:5000/api/crop/myissues",
+"https://cropcare-backend-7njo.onrender.com/api/crop/myissues",
 { headers: { Authorization: token } }
 );
 setIssues(res.data);
@@ -31,7 +31,7 @@ console.log(err);
 
 const fetchPrices = async () => {
 try {
-const res = await axios.get("http://localhost:5000/api/prices");
+const res = await axios.get("https://cropcare-backend-7njo.onrender.com/api/prices");
 setPrices(res.data);
 } catch (err) {
 console.log(err);
@@ -41,7 +41,7 @@ console.log(err);
 const fetchWeather = async () => {
 try {
 const res = await axios.get(
-`http://localhost:5000/api/weather?location=${location}`
+`https://cropcare-backend-7njo.onrender.com/api/weather?location=${location}`
 );
 setWeather(res.data);
 } catch (err) {
@@ -51,12 +51,11 @@ console.log(err);
 
 // ---------------- LOAD ---------------- //
 
+// eslint-disable-next-line
 useEffect(() => {
-fetchIssues();
-fetchPrices();
-fetchWeather();
+  fetchIssues();
+  fetchWeather();
 }, []);
-
 // ---------------- SUBMIT ---------------- //
 
 const handleSubmit = async (e) => {
@@ -64,7 +63,7 @@ e.preventDefault();
 
 try {
 const res = await axios.post(
-"http://localhost:5000/api/crop/report",
+"https://cropcare-backend-7njo.onrender.com/api/crop/report",
 { cropName, problem },
 { headers: { Authorization: token } }
 );
