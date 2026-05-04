@@ -15,74 +15,81 @@ const [location, setLocation] = useState("Punjab");
 
 const token = localStorage.getItem("token");
 
-// ---------------- FETCH ---------------- //
+// ---------------- FETCH FUNCTIONS ---------------- //
 
 const fetchIssues = async () => {
-try {
-const res = await axios.get(
-"https://cropcare-backend-7njo.onrender.com/api/crop/myissues",
-{ headers: { Authorization: token } }
-);
-setIssues(res.data);
-} catch (err) {
-console.log(err);
-}
+  try {
+    const res = await axios.get(
+      "https://cropcare-backend-7njo.onrender.com/api/crop/myissues",
+      { headers: { Authorization: token } }
+    );
+    setIssues(res.data);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const fetchPrices = async () => {
-try {
-const res = await axios.get("https://cropcare-backend-7njo.onrender.com/api/prices");
-setPrices(res.data);
-} catch (err) {
-console.log(err);
-}
+  try {
+    const res = await axios.get(
+      "https://cropcare-backend-7njo.onrender.com/api/prices"
+    );
+    setPrices(res.data);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const fetchWeather = async () => {
-try {
-const res = await axios.get(
-`https://cropcare-backend-7njo.onrender.com/api/weather?location=${location}`
-);
-setWeather(res.data);
-} catch (err) {
-console.log(err);
-}
+  try {
+    const res = await axios.get(
+      `https://cropcare-backend-7njo.onrender.com/api/weather?location=${location}`
+    );
+    setWeather(res.data);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-// ---------------- LOAD ---------------- //
+// ---------------- LOAD DATA ---------------- //
 
-// eslint-disable-next-line
 useEffect(() => {
-  fetchIssues();
-  fetchWeather();
+  const loadData = async () => {
+    await fetchIssues();
+    await fetchWeather();
+    await fetchPrices();
+  };
+
+  loadData();
 }, []);
+
 // ---------------- SUBMIT ---------------- //
 
 const handleSubmit = async (e) => {
-e.preventDefault();
+  e.preventDefault();
 
-try {
-const res = await axios.post(
-"https://cropcare-backend-7njo.onrender.com/api/crop/report",
-{ cropName, problem },
-{ headers: { Authorization: token } }
-);
+  try {
+    const res = await axios.post(
+      "https://cropcare-backend-7njo.onrender.com/api/crop/report",
+      { cropName, problem },
+      { headers: { Authorization: token } }
+    );
 
-setSolution(res.data.solution);
-setCropName("");
-setProblem("");
-fetchIssues();
+    setSolution(res.data.solution);
+    setCropName("");
+    setProblem("");
+    fetchIssues();
 
-} catch {
-alert("Error submitting issue");
-}
+  } catch {
+    alert("Error submitting issue");
+  }
 };
 
 // ---------------- LOGOUT ---------------- //
 
 const handleLogout = () => {
-localStorage.removeItem("token");
-window.location.href = "/login";
+  localStorage.removeItem("token");
+  window.location.href = "/login";
 };
 
 // ---------------- UI ---------------- //
@@ -99,6 +106,7 @@ return (
 <Link to="/">Home</Link>
 <Link to="/about">About</Link>
 <Link to="/contact">Contact</Link>
+
 <button className="logout-btn" onClick={handleLogout}>
 Logout
 </button>
