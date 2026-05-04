@@ -32,7 +32,7 @@ app.get("/api/health-checkup", (req,res) => {
 
 cron.schedule("* * * * *", async () => {
     try {
-        const res = await axios.get("http://localhost:5000/api/health-checkup");
+        const res = await axios.get("https://cropcare-backend-7njo.onrender.com/api/health-checkup");
         console.log("Health:", res.data);
     } catch (err) {
         console.error("Health check failed");
