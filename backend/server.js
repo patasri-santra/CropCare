@@ -25,6 +25,10 @@ app.get("/", (req, res) => {
     res.send("CropCare API is running 🌱");
 });
 
+app.get("/api/health-checkup", (req,res) => {
+    res.send("server is up and running")
+});
+
 // connect database
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB connected"))
@@ -35,3 +39,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
     console.log(`Server running on port ${PORT}`)
 );
+
