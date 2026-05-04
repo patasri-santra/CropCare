@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cron = require("node-cron");
+const axios = require("axios");
 const authRoutes = require("./routes/authRoutes");
 const cropRoutes = require("./routes/cropRoutes");
 const weatherRoutes = require("./routes/weatherRoutes");
@@ -30,14 +31,6 @@ app.get("/api/health-checkup", (req,res) => {
     res.send("server is up and running")
 });
 
-cron.schedule("* * * * *", async () => {
-    try {
-        const res = await axios.get("https://cropcare-backend-7njo.onrender.com/api/health-checkup");
-        console.log("Health:", res.data);
-    } catch (err) {
-        console.error("Health check failed");
-    }
-});
 // connect database
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB connected"))
@@ -49,3 +42,13 @@ app.listen(PORT, () =>
     console.log(`Server running on port ${PORT}`)
 );
 
+
+//health checkup
+cron.schedule("* * * * *", async () => {
+    try {
+        const res = await axios.get("https://cropcare-backend-7njo.onrender.com/api/health-checkup");
+        console.log(res.data);
+    } catch (err) {
+        console.error("Health check failed");
+    }
+});
