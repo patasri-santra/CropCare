@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
+import api from "../api";
 
 function Login() {
 
@@ -23,10 +24,7 @@ e.preventDefault();
 
 try {
 
-const res = await axios.post(
-"https://cropcare-backend-7njo.onrender.com/api/auth/login",
-formData
-);
+const res = await api.post("/auth/login", formData);
 
 localStorage.setItem("token", res.data.token);
 

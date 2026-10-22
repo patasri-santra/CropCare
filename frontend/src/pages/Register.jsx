@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/register.css";
 import { Link } from "react-router-dom";
+import api from "../api";
 
 function Register() {
 
@@ -29,10 +30,7 @@ e.preventDefault();
 
 try {
 
-await axios.post(
-"https://cropcare-backend-7njo.onrender.com/api/auth/register",
-formData
-);
+await api.post("/auth/register", formData);
 
 // clear form after success
 setFormData({
